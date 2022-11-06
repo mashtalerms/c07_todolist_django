@@ -49,7 +49,7 @@ jobs:
     steps:
       - name: clone code
         uses: actions/checkout@v2
-      - name: render docker-compose and .env
+      - name: render docker-compose, nginx.conf and .env
         run: |
           cat deploy/docker-compose.ci.yaml | envsubst > deploy/docker-compose.yaml
           cat deploy/.ci_env | envsubst > deploy/.env
