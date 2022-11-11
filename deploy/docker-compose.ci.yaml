@@ -28,6 +28,16 @@ services:
       db:
         condition: service_healthy
 
+  migrations:
+    image: mmashtaler/cw6:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./.env:/code/.env
+    command: >
+      sh -c "python manage.py migrate"
+
   frontend:
     image: sermalenk/skypro-front:lesson-34
     restart: always
