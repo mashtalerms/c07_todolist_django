@@ -45,13 +45,6 @@ DATABASES = {
         'PORT': env('DB_PORT'),
     }
 }
-# DATABASE_URL=postgresql://postgres:postgres@localhost:5432/postgres
-# DB_ENGINE=django.db.backends.postgresql
-# DB_NAME=postgres
-# DB_USER=postgres
-# DB_PASSWORD=postgres
-# DB_HOST=localhost
-# DB_PORT=5432
 
 ALLOWED_HOSTS = ["*"]
 
@@ -65,6 +58,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "rest_framework_simplejwt",
     "core",
 ]
 
