@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: docker
     env:
-      SECRET_KEY: "${{ secrets.SECRET_KEY }}"
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DEBUG_MODE: ${{ secrets.DEBUG_MODE }}
       ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
       DB_ENGINE: ${{ secrets.DB_ENGINE }}
@@ -52,7 +52,7 @@ jobs:
       - name: render docker-compose, nginx.conf and .env
         run: |
           cat deploy/docker-compose.ci.yaml | envsubst > deploy/docker-compose.yaml
-          cat deploy/.ci_env | envsubst > deploy/.env
+#          cat deploy/.ci_env | envsubst > deploy/.env
           cat deploy/nginx.conf | envsubst > deploy/nginx.conf
       - name: copy files to server
         uses: appleboy/scp-action@master

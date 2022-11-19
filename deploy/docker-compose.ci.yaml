@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
-    restart: always
+    restart: on-failure
     networks:
       - todolist_db_network
     healthcheck:
@@ -21,7 +21,7 @@ services:
 
   api:
     image: mmashtaler/cw6:latest
-    restart: always
+#    restart: always
     env_file:
       - .env
     environment:
