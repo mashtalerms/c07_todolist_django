@@ -18,7 +18,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      DB_HOST: db
+      DB_HOST: localhost
     ports:
       - "8000:8000"
     volumes:

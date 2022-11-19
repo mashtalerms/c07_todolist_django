@@ -31,6 +31,8 @@ services:
     networks:
       - todolist_front_network
       - todolist_db_network
+    volumes:
+      - ./static/:/code/static/
 
   frontend:
     image: sermalenk/skypro-front:lesson-34
