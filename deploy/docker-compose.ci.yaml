@@ -23,7 +23,7 @@ services:
     image: mmashtaler/cw6:latest
 #    restart: always
     env_file:
-      - .env
+      - .env.ci
     environment:
       DB_HOST: db
     depends_on:
