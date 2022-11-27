@@ -23,7 +23,7 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '../todolist/../../.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, '../.env'))
 
 # False if not in os.environ because of casting above
 DEBUG = env('DEBUG')
@@ -60,7 +60,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "social_django",
+    "django_filters",
     "core",
+    "goals",
 ]
 
 MIDDLEWARE = [
@@ -155,3 +157,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
+}

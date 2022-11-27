@@ -1,39 +1,42 @@
+from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from core.models import User
-from core.serializers import UserRegisterSerializer, UserLoginSerializer, UserRetrieveUpdateSerializer, PasswordUpdateSerializer
-from django.contrib.auth import authenticate, login, logout
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from core.serializers import UserRegisterSerializer, UserLoginSerializer, UserRetrieveUpdateSerializer, \
+    PasswordUpdateSerializer
 
 
 class UserRegistrationView(CreateAPIView):
-    serializer_class = UserRegisterSerializer
+    """Create new user"""
     queryset = User.objects.all()
+    serializer_class = UserRegisterSerializer
 
 
 class UserLoginView(CreateAPIView):
-
+    """Login user"""
     serializer_class = UserLoginSerializer
 
     def post(self, request, *args, **kwargs):
-
+        # validate request data
         serializer = self.get_serializer(data=request.data)
 
         if not serializer.is_valid():
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        # authenticate
         username = request.data.get('username')
         password = request.data.get('password')
         user = authenticate(request, username=username, password=password)
 
-        if user is not None:
+        # login
+        if user:
             login(request, user)
             return Response(status=status.HTTP_200_OK)
 
-        else:
-            return Response({"Failure": "Error"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data={'password': ['Invalid password']}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserRetrieveUpdateView(RetrieveUpdateDestroyAPIView):
@@ -50,8 +53,8 @@ class UserRetrieveUpdateView(RetrieveUpdateDestroyAPIView):
 
 
 class PasswordUpdateView(UpdateAPIView):
-    model = User
     serializer_class = PasswordUpdateSerializer
+    model = User
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
@@ -62,14 +65,10 @@ class PasswordUpdateView(UpdateAPIView):
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
-
-            if not self.object.check_password(serializer.data.get("old_password")):
-                return Response({"old_password": "wrong password"}, status=status.HTTP_400_BAD_REQUEST)
-
-            print(serializer.data.get("new_password"))
-            self.object.set_password(serializer.data.get("new_password"))
+            if not self.object.check_password(serializer.data.get('old_password')):
+                return Response({"old_password": ["Wrong password passed, try again."]}, status=status.HTTP_400_BAD_REQUEST)
+            self.object.set_password(serializer.data.get('new_password'))
             self.object.save()
-
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
