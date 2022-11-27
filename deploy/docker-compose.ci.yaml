@@ -35,7 +35,7 @@ services:
       - ./static/:/code/todolist/static/
 
   frontend:
-    image: sermalenk/skypro-front:lesson-34
+    image: sermalenk/skypro-front:lesson-38
     restart: always
     depends_on:
       - api
