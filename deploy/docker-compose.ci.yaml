@@ -39,8 +39,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./:/code/
+    environment:
+      DB_HOST: db
     networks:
       - todolist_db_network
     restart: always
