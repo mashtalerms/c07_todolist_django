@@ -5,6 +5,12 @@ from core.models import User
 
 class TgUser(models.Model):
 
-    telegram_chat_id = models.IntegerField()
-    telegram_user_ud = models.IntegerField()
-    local_user_id = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True)
+    class Meta:
+        verbose_name = "Пользователь телеграм"
+        verbose_name_plural = "Пользователи телеграм"
+
+    telegram_chat_id = models.IntegerField(verbose_name="ID чата телеграм")
+    telegram_user_id = models.IntegerField(verbose_name="ID пользователя телеграм")
+    verification_code = models.IntegerField(verbose_name="Код для верефикации")
+    user = models.ForeignKey(
+        User, verbose_name="Пользователь телеграм", on_delete=models.PROTECT, null=True, blank=True)

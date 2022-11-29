@@ -28,6 +28,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '../.env'))
 # False if not in os.environ because of casting above
 DEBUG = env('DEBUG')
 
+
 # Raises Django's ImproperlyConfigured
 # exception if SECRET_KEY not in os.environ
 SECRET_KEY = env('SECRET_KEY')
@@ -162,3 +163,6 @@ AUTHENTICATION_BACKENDS = (
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
 }
+
+# Telegram bot
+BOT_TOKEN = env('BOT_TOKEN')
