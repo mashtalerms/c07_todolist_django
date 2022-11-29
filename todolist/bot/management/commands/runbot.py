@@ -106,7 +106,7 @@ class Command(BaseCommand):
 
         reply = (f"Аккаунт не подтвержден. "
                  f"Для подтверждения необходимо ввести код: {verification_code} "
-                 f"на в личном кабинете на сайте.")
+                 f"в личном кабинете на сайте.")
         return reply
 
     def _goals(self) -> list:
@@ -126,7 +126,7 @@ class Command(BaseCommand):
             is_deleted=False
         ).only('id', 'title')
         self.category_mode = True
-        prefix = ['Введите номер категории зи списка доступных:']
+        prefix = ['Введите номер категории из списка доступных:']
         reply = [f'#{category.id} {category.title}' for category in categories]
         return prefix + reply
 
