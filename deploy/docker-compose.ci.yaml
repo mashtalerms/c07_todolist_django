@@ -34,6 +34,19 @@ services:
     volumes:
       - ./static/:/code/todolist/static/
 
+  bot:
+    image: mmashtaler/cw6:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./:/code/
+    networks:
+      - todolist_db_network
+    restart: always
+    command: >
+      sh -c "python manage.py runbot"
+
   frontend:
     image: sermalenk/skypro-front:lesson-38
     restart: always
