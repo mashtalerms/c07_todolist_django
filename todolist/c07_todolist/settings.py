@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "core",
     "goals",
     "bot",
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -160,9 +161,19 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+# RF and Swagger
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Todolist API',
+    'DESCRIPTION': 'API for todolist application',
+    'VERSION': '1.0.0',
 }
 
 # Telegram bot
 BOT_TOKEN = env('BOT_TOKEN')
+
+
