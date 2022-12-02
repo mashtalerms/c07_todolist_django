@@ -33,7 +33,7 @@ Backend for online application for monitoring the execution of tasks
 ## Development local configuration ##
 1) Create venv
 2) Install dependencies
-   - `pip install -r requirements.txt`
+   - `pip install -r requirements.dev.txt`
 3) Set env variables with .env file 
    - create .env file main folder
    - copy data from .env.example
