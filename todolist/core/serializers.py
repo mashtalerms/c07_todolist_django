@@ -10,7 +10,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=False, allow_blank=True, max_length=50)
     last_name = serializers.CharField(required=False, allow_blank=True, max_length=50)
     email = serializers.EmailField(required=False, allow_blank=True)
-    password = serializers.CharField(required=True)
+    password = serializers.CharField(required=True, write_only=True)
 
     def is_valid(self, raise_exception=False):
         """Get password_repeat and remove from initial data"""
@@ -30,8 +30,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         """Ensure passwords match"""
-        print(data.get('password'))
-        print(self._password_repeat)
         if data.get('password') != self._password_repeat:
             raise serializers.ValidationError({'password_repeat': ['Passwords must match']})
         return data
@@ -46,6 +44,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
+
 
 
 class UserLoginSerializer(serializers.Serializer):

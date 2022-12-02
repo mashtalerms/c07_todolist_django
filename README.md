@@ -1,36 +1,32 @@
 # SkyPro Python Course #
 
----
 
 ## Mashtaler Maksim 10/2022 - 11/2022
 Backend for online application for monitoring the execution of tasks
 
----
 # Description #
 
----
 
 ### Stack ###
 - python3.9, Django - backend
 - Postgres - database
 
----
 
 ## Features ##
 
-1. Authentication (core)
+1. Authentication (todolist/core)
    - VK Oauth
    - django authentication
    - profile update
-2. Main logic (goals)
+2. Main logic (todolist/goals)
    - full CRUD with filters and soring for boards, categories, goals and comments
    - permissions are correctly configured to read/update/delete for all entities 
-3. Telegram bot (bot) 
+3. Telegram bot (todolist/bot) 
    - user have to verify his account due to verification code
    - user can get and create his goals
    - bot username - @Todolist_MMS_Bot
+4. Tests for whole CRUD of goals and user apps (./tests)
 
----
 
 ## How to: ##
 
@@ -52,8 +48,9 @@ Backend for online application for monitoring the execution of tasks
 7) Createsuperuser
    - `manage.py createsuperuser`
 8) Connect to admin panel at http://127.0.0.1:8000/admin/
+9) Run tests from main folder
+   - `pytest`
 
----
 
 ## Development local configuration with Frontend 
 1) Create venv
@@ -74,7 +71,6 @@ Backend for online application for monitoring the execution of tasks
    - `manage.py createsuperuser`
 8) Connect to admin panel at http://127.0.0.1:8000/admin/
 
----
 
 1) Set env variables with .env file 
    - create .env file in main folder
@@ -89,7 +85,6 @@ Backend for online application for monitoring the execution of tasks
    - api container would start
    - front container would start
 
---- 
 
 ## Project links
 1) Frontend - http://skypro-mmashtaler.ga
