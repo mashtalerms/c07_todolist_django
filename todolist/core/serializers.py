@@ -46,7 +46,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
 
 
-
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
@@ -64,16 +63,6 @@ class UserRetrieveUpdateSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=False, allow_blank=True, max_length=50)
     last_name = serializers.CharField(required=False, allow_blank=True, max_length=50)
     email = serializers.EmailField(required=False, allow_blank=True)
-
-    def validate_username(self, value):
-        """Ensure username doesn't exist"""
-        # get current user
-        current_user = self.context['request'].user
-
-        # check username doesn't exist if it isn't current user
-        if self.Meta.model.objects.filter(username=value).exists() and current_user.username != value :
-            raise serializers.ValidationError(['User with such username already exists'])
-        return value
 
     class Meta:
         model = User

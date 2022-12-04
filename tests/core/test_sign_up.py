@@ -1,11 +1,9 @@
 import pytest
-
 from core.models import User
 
 
 @pytest.mark.django_db
 def test_signup(client):
-
     data = {
         "username": "test_username",
         "first_name": "test_first_name",

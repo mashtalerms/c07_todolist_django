@@ -175,5 +175,3 @@ SPECTACULAR_SETTINGS = {
 
 # Telegram bot
 BOT_TOKEN = env('BOT_TOKEN')
-
-

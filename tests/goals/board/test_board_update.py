@@ -2,11 +2,11 @@ import pytest
 
 
 @pytest.mark.django_db
-def test_goal_update(client, get_credentials, goal, board_participant):
+def test_board_update(client, get_credentials, board, board_participant):
     new_title = 'updated_title'
 
     response = client.patch(
-        path=f'/goals/goal/{goal.id}',
+        path=f'/goals/board/{board.id}',
         HTTP_AUTHORIZATION=get_credentials,
         data={'title': new_title},
         content_type='application/json'

@@ -11,44 +11,43 @@ from goals.serializers.goal import GoalCreateSerializer, GoalSerializer
 
 class GoalCreateView(CreateAPIView):
     model = Goal
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, GoalPermissions]
     serializer_class = GoalCreateSerializer
 
 
 class GoalListView(ListAPIView):
     model = Goal
-    permission_classes = [permissions.IsAuthenticated]
     serializer_class = GoalSerializer
+    permission_classes = [permissions.IsAuthenticated]
     pagination_class = LimitOffsetPagination
+    ordering_fields = ["due_date"]
+    ordering = ["-priority", "due_date"]
+    search_fields = ["title", "description"]
     filter_backends = [
         DjangoFilterBackend,
         filters.OrderingFilter,
         filters.SearchFilter,
     ]
-    ordering_fields = ["title", "created", "priority", "due_date"]
-    ordering = ["-priority", "due_date", "title"]
     filterset_class = GoalDateFilter
-    search_fields = ["title", "description"]
 
-    def get_queryset(self):
+    def get_queryset(self) -> Goal:
         return Goal.objects.filter(
-            category__board__participants__user=self.request.user,
-            is_deleted=False
+            category__board__participants__user=self.request.user, is_deleted=False
         )
 
 
 class GoalView(RetrieveUpdateDestroyAPIView):
     model = Goal
     serializer_class = GoalSerializer
-    permission_classes = [GoalPermissions]
+    permission_classes = [permissions.IsAuthenticated, GoalPermissions]
 
-    def get_queryset(self):
+    def get_queryset(self) -> Goal:
         return Goal.objects.filter(
-            category__board__participants__user=self.request.user,
-            is_deleted=False
+            category__board__participants__user=self.request.user, is_deleted=False
         )
 
-    def perform_destroy(self, instance):
+    def perform_destroy(self, instance: Goal) -> Goal:
         instance.is_deleted = True
+        instance.status = 4
         instance.save()
         return instance

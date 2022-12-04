@@ -2,21 +2,10 @@ import pytest
 
 
 @pytest.mark.django_db
-def test_comment_delete(client, create_goal):
-    create_comment = client.post('/goals/goal_comment/create',
-                                 {'text': 'test_comment',
-                                  'goal': create_goal.data['id']},
-                                 content_type='application/json')
-
-    comment_response = client.get(f'/goals/goal_comment/{create_comment.data["id"]}')
-
-    comment_delete_response = client.delete(f'/goals/goal_comment/{create_comment.data["id"]}')
-
-    check_delete_response = client.get(f'/goals/goal_comment/{create_comment.data["id"]}')
-
-    assert create_comment.status_code == 201
-    assert comment_response.status_code == 200
-    assert comment_delete_response.status_code == 204
-    assert check_delete_response.status_code == 404
-
-
+def test_comment_delete(client, get_credentials, comment, board_participant):
+    response = client.delete(
+        path=f'/goals/goal_comment/{comment.id}',
+        HTTP_AUTHORIZATION=get_credentials,
+    )
+    assert response.status_code == 204
+    assert response.data is None

@@ -2,20 +2,11 @@ import pytest
 
 
 @pytest.mark.django_db
-def test_goal_delete(client, create_category):
-    create_goal = client.post('/goals/goal/create',
-                              {'title': 'test_goal', 'category': create_category.data['id']},
-                              content_type='application/json')
+def test_goal_delete(client, get_credentials, goal, board_participant):
+    response = client.delete(
+        path=f'/goals/goal/{goal.id}',
+        HTTP_AUTHORIZATION=get_credentials,
+    )
 
-    goal_response = client.get(f'/goals/goal/{int(create_goal.data["id"])}')
-
-    goal_delete_response = client.delete(f'/goals/goal/{int(create_goal.data["id"])}',
-                                         content_type='application/json')
-
-    check_delete_response = client.get(f'/goals/goal/{int(create_goal.data["id"])}')
-
-    assert create_goal.status_code == 201
-    assert goal_response.status_code == 200
-    assert goal_response.data['title'] == 'test_goal'
-    assert goal_delete_response.status_code == 204
-    assert check_delete_response.status_code == 404
+    assert response.status_code == 204
+    assert response.data is None

@@ -2,27 +2,28 @@ import pytest
 
 
 @pytest.mark.django_db
-def test_goal_create(client, create_category):
-    create_goal = client.post(
-         '/goals/goal/create', {'title': 'test_goal', 'category': create_category.data['id']},
-         content_type='application/json')
-
-    goal_response = client.get(f'/goals/goal/{int(create_goal.data["id"])}')
-
-    expected_response = {
-        "id": create_goal.data['id'],
-        "category": create_category.data['id'],
-        "created": create_goal.data['created'],
-        "updated": create_goal.data['updated'],
-        "title": "test_goal",
-        "description": None,
-        "status": create_goal.data['status'],
-        "priority": create_goal.data['priority'],
-        "due_date": create_goal.data['due_date'],
-        "user": goal_response.data['user'],
-        "is_deleted": goal_response.data['is_deleted']
+def test_goal_create(client, get_credentials, user, goal__category):
+    data = {
+        'title': 'title',
+        'description': 'description',
+        'user': user.id,
+        'category': goal__category.id,
+        'status': 2,
+        'priority': 3,
+        'due_date': '2022-11-15',
     }
 
-    assert create_goal.status_code == 201
-    assert goal_response.status_code == 200
-    assert goal_response.data == expected_response
+    response = client.post(
+        path='/goals/goal/create',
+        HTTP_AUTHORIZATION=get_credentials,
+        data=data,
+        content_type='application/json'
+    )
+
+    assert response.status_code == 201
+    assert response.data['title'] == data['title']
+    assert response.data['description'] == data['description']
+    assert response.data['category'] == data['category']
+    assert response.data['status'] == data['status']
+    assert response.data['priority'] == data['priority']
+    assert response.data['due_date'] == data['due_date']

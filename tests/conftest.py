@@ -1,7 +1,12 @@
 from pytest_factoryboy import register
 
-from tests.factories.board import BoardFactory
+import tests.factories
 
-pytest_plugins = "tests.fixtures"
+register(tests.factories.UserFactory)
+register(tests.factories.BoardFactory)
+register(tests.factories.BoardParticipantFactory)
+register(tests.factories.GoalCategoryFactory)
+register(tests.factories.GoalCommentFactory)
+register(tests.factories.GoalFactory)
 
-register(BoardFactory)
+pytest_plugins = 'tests.fixtures'
